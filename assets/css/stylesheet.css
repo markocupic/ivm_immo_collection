@@ -1,0 +1,11 @@
+button.ivm-collection-toggle-button,button.ivm-collection-toggle-button:hover{
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    margin:0;
+    box-shadow: none;
+}
+img.ivm-collection-toggle-img{
+   width: 30px;
+    height: auto;
+}

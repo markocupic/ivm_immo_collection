@@ -1,0 +1,3 @@
+<button class="ivm-collection-toggle-button <?= $this->featureClass ?>" title="<?= $this->title ?>" data-itemselector="<?= $this->itemSelector ?>" data-wid="<?= $this->wid ?>">
+    <img class="ivm-collection-toggle-img" src="system/modules/ivm_immo_collection/assets/images/<?= $this->icon ?>.svg">
+</button>

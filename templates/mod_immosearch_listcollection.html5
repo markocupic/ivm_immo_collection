@@ -1,0 +1,320 @@
+<style>
+.clickable {
+	cursor:pointer;
+	padding-bottom: 40px;
+	margin-bottom: 20px;
+}
+.clickable:hover {
+	background: #f5f5f5;
+}
+.left  { float: left; }
+	.right { float: right; }
+	.clear { clear:both; }
+	
+	.listObject  { display: block; width: 100%; background-color: #fff; margin-bottom: 20px; padding: 10px; border: 1px solid #eee; }
+	.listContent { margin-left:20px; width: 450px; }
+	.item        { text-align:center; background-color: #eee; padding-top:10px;padding-bottom:20px; }
+    
+    .item > h3 { font-size:32px; font-weight:bold; }
+    .item > h2 { font-size:20px; }
+    
+    @media (max-width: 1270px) {
+    	.item > h3 { font-size:20px; font-weight:bold; }
+    	.item > h4 { font-size:16px !important; }
+    	.item { padding:5px; padding-bottom:10px; }
+    }
+    
+    .itemMobile { display: none; background-color: #eee; padding:10px;padding-bottom:20px; }
+    @media (max-width: 996px) {
+    	.item { display: none; }
+    	.itemMobile { display: block; }
+    	.itemMobile > p > span { font-weight: bold; }
+    	.itemImg { width:48% !important; }
+    }
+    
+    @media (max-width: 767px) {
+    	.itemImg { width:100% !important; padding-right: 1%; }
+    	.itemContainer { margin-left:2%; margin-right:2%; }
+    	.itemBtn { width:99% !important; margin-right: 1% !important; }
+    }
+    
+    .icon { background-color:#002951; color:#FFFFFF; border:1px solid #000; margin-right:5px; padding:0px 8px; font-size:11px; }
+	.blueVerlaufBG { 
+                background:-moz-linear-gradient(top, #0171df 0%, #002951 100% ); 
+                background:-webkit-linear-gradient(top, #0171df 0%, #002951 100% ); 
+                background:-o-linear-gradient(top, #0171df 0%, #002951 100% ); 
+                background:-ms-linear-gradient(top, #0171df 0%, #002951 100% ); 
+                background:linear-gradient(top, #0171df 0%, #002951 100% ); 
+    } 
+	
+	.pageBtn { width: 20px;	height: 20px; padding: 0px;	background-color: #eee;	margin: 0 0 12px 6px; }
+	
+	.pageBtn a {
+		display:block;
+		width:100%;
+		height:100%;
+		text-align:center;
+		padding-top:0;
+		font-size:11px;
+		color:#999;
+		text-decoration:none;
+	}
+	
+	.pageBtn a.active,
+	.sortBtn a.active {
+		color:#000;	
+	}
+	
+	.pageBtn a.active::after,
+	.sortBtn a.active::after {
+		content:" ↑↓"	
+	}
+	
+	
+	.pageBtn a:hover {
+		font-size:11px;
+		color:#0059bc;	
+		text-decoration:underline;
+	}
+	
+	.sortBtn {
+		width: 132px;
+		height: 20px;
+		padding: 0px;
+		margin: 0 0 12px 6px;
+	}
+	
+	.sortBtn a {
+		display:block;
+		width:100%;
+		height:100%;
+		text-align:center;
+		padding-top:0;
+		font-size:14px;
+		color:#999;
+		text-decoration:none;
+	}
+	
+	.sortBtn a:hover {
+		font-size:14px;
+		color:#0059bc;	
+		text-decoration:underline;
+	}
+	
+	.sort {
+		font-size:14px;
+		font-weight: bold;
+		color:#333;	
+		padding:4px 20px;
+		padding: 0px;
+		margin: 0 24px 12px 6px;
+	}
+	
+	.detailsBtn {
+		width: 120px;
+		height: 30px;
+		padding: 0px;
+		background-color: #eee;
+		margin: 14px 8px 5px auto;
+	}
+	
+	.detailsBtn a {
+		display:block;
+		width:100%;
+		height:100%;
+		text-align:center;
+		padding-top:4px;
+		font-size:14px;
+		color:#999;
+		text-decoration:none;
+	}
+	
+	.detailsBtn a:hover {
+		font-size:14px;
+		color:#eee;	
+		background-color:#999;
+		text-decoration:underline;
+	}
+	
+	.titleA {  text-decoration:none; color:#333; }
+	.titleA:hover { text-decoration:underline; }
+
+	
+	.subhead { font-size:12px; color: #666; font-style:italic; margin-left:10px; }
+	
+
+</style>
+<?php 
+	if(strpos($this->phpself,'?') != FALSE) {
+		$link = $this->phpself.'&wid=';
+		$sortKind = '&';
+	} else {
+		$link = $this->phpself.'?wid=';
+		$sortKind = '?';
+	}
+?>
+<!-- Hack Marko Cupic das ist das Listing Template -->
+<?php if ($this->ergebniss === null ) : ?>
+<p>Ihre Merkliste ist noch leer.</p>
+<?php endif; ?>
+<!-- End Hack -->
+
+<?php if ( $this->searchAdjustKey > 0 ) : ?>
+<div style="margin-bottom:50px;">
+    <hr style="border-color:#008f5e;">
+    <h2>Kein Grund, traurig zu sein.</h2>
+    <p>Zu Deiner Suchanfrage konnten wir leider kein entsprechendes Angebot finden.
+Unser Vermietungsservice kann Dir hier bestimmt weiterhelfen. Unter Telefon 0340 260220 stehen Dir unsere Ansprechpartner gern zur Verfügung, um gezielt Deinen Wohnungswünschen nachkommen zu können.
+</p>
+	</div>
+	<?php if ( $this->ergebniss ) : ?>
+		<!-- Hack Marko Cupic April 2019
+    	<div style="margin-bottom:50px;">
+            <h2>Vielleicht ist hier etwas für Dich dabei.</h2>
+            <p>Hier haben wir für Dich alternative Wohnungsangebote ausgewählt:</p>
+            <ul>
+            	<?php if( $this->kalt_von != $_GET['kalt_von'] ) : ?>
+                	<li>Kaltmiete von : <b><?=$this->kalt_von?></b> Euro </li>
+                <?php endif; ?>
+            	<?php if( $this->kalt_bis != $_GET['kalt_bis'] ) : ?>
+                	<li>Kaltmiete bis : <b><?=$this->kalt_bis?></b> Euro </li>
+                <?php endif; ?>
+                <?php if( $this->size_von != $_GET['size_von'] ) : ?>
+                	<li>Wohnfläche von : <b><?=$this->size_von?></b> m² </li>
+                <?php endif; ?>
+            	<?php if( $this->size_bis != $_GET['size_bis'] ) : ?>
+                	<li>Wohnfläche bis : <b><?=$this->size_bis?></b> m² </li>
+                <?php endif; ?>
+                <?php if( $this->zimmer_von != $_GET['zimmer_von'] ) : ?>
+                	<li>Zimmeranzahl von : <b><?=$this->zimmer_von?></b> </li>
+                <?php endif; ?>
+            	<?php if( $this->zimmer_bis != $_GET['zimmer_bis'] ) : ?>
+                	<li>Zimmeranzahl bis : <b><?=$this->zimmer_bis?></b> </li>
+                <?php endif; ?>
+                <?php if( $this->wohngebiet == 'alleAdjusted' ) : ?>
+                <?php endif; ?>
+            </ul>
+
+        </div>
+        End Hack-->
+    <?php endif; ?>
+<?php endif; ?>
+<?php if ( $this->ergebniss ) : ?>
+<div class="ce_text offset2 grid9 inset1 block" style="margin-bottom:50px;">
+	<div class="right sortBtn">
+		<?php if ( $this->sort_kind == 'zimmer_up' ) : ?>
+			<a href="<?=$this->phpself.$sortKind.'sort_kind=zimmer_down'?>" <?php if( $this->sort_kind == 'zimmer_up' ) echo ' class="active"'; ?> title="nach Zimmeranzahl sortieren?>">Zimmeranzahl</a>
+		<?php else : ?>
+			<a href="<?=$this->phpself.$sortKind.'sort_kind=zimmer_up'?>" <?php if( $this->sort_kind == 'zimmer_down' ) echo ' class="active"'; ?> title="nach Zimmeranzahl sortieren?>">Zimmeranzahl</a>
+		<?php endif; ?>
+	</div>
+	<div class="right sortBtn">
+		<?php if ( $this->sort_kind == 'size_up' ) : ?>
+			<a href="<?=$this->phpself.$sortKind.'sort_kind=size_down'?>" <?php if( $this->sort_kind == 'size_up' ) echo ' class="active"'; ?> title="nach Wohnfläche sortieren">Wohnfläche</a>
+		<?php else : ?>
+			<a href="<?=$this->phpself.$sortKind.'sort_kind=size_up'?>" <?php if( $this->sort_kind == 'size_down' ) echo ' class="active"'; ?> title="nach Wohnfläche sortieren">Wohnfläche</a>
+		<?php endif; ?>
+	</div>
+	<div class="right sortBtn">
+		<?php if ( $this->sort_kind == 'kalt_up' ) : ?>
+			<a href="<?=$this->phpself.$sortKind.'sort_kind=kalt_down'?>" <?php if( $this->sort_kind == 'kalt_up' ) echo ' class="active"'; ?> title="nach Kaltmiete sortieren">Kaltmiete</a>
+		<?php else : ?>
+			<a href="<?=$this->phpself.$sortKind.'sort_kind=kalt_up'?>" <?php if( $this->sort_kind == 'kalt_down' ) echo ' class="active"'; ?> title="nach Kaltmiete sortieren">Kaltmiete</a>
+		<?php endif; ?>
+	</div>
+	<div class="right sort">Sortieren nach :</div><hr>
+	<div class="clear"></div>
+	<?php foreach( $this->wohnungen as $wohnung ) : ?>
+
+
+<div class="clickable js-base64 rs-columns ce_rs_columns_start first"  data-extend="<?php echo base64_encode('wohnungsangebot.html?&wid='.$wohnung['wid']);?>">
+
+	<div data-id="<?= $this->id ?>" class="ce_rs_column_start  rs-column -large-col-6-2 -large-first -large-first-row -medium-col-6-2 -medium-first -medium-first-row -small-col-1-1 -small-first -small-last -small-first-row">
+		{{ivmImmoCollectionToggleCollection::<?= $wohnung['wid'] ?>::div.clickable}}
+        <div class="ce_image block">
+  <figure class="image_container">
+	<img
+	  src="./files/Wohnungsangebote/<?=$wohnung['startbild']?>"
+	  	  	   width="480" height="260"	  alt=""
+	  	  class="lazyload " />
+  </figure>
+
+
+</div>
+</div>
+<div class="ce_rs_column_start  rs-column -large-col-6-4 -large-last -large-first-row -medium-col-6-4 -medium-last -medium-first-row -small-col-1-1 -small-first -small-last">
+
+	
+<div class="ce_text inserat block">
+
+      <h3><?=$wohnung['title']?></h3>
+  
+  
+      <p><em><?=$wohnung['strasse']?><?=$wohnung['hnr']?>, <?=$wohnung['plz']?> <?=$wohnung['ort']?></em></p>  
+  
+  
+
+</div>
+<div class="rs-columns ce_rs_columns_start">
+
+	<div class="rs-column -large-col-3-1 -large-first -large-first-row -medium-col-3-1 -medium-first -medium-first-row -small-col-3-1 -small-first -small-first-row">
+<div class="ce_text label-price block">
+
+    <p><strong>Wohn&shy;fläche</strong></p> 
+  
+      <h2><?=$wohnung['flaeche']?></h2>
+  
+  
+
+</div>
+</div><div class="rs-column -large-col-3-1 -large-first-row -medium-col-3-1 -medium-first-row -small-col-3-1 -small-first-row">
+<div class="ce_text label-price block">
+
+  
+    <p><strong>Kaltmiete</strong></p> 
+     <h2><?=$wohnung['kalt']?></h2>
+  
+  
+
+</div>
+</div>
+<div class="rs-column -large-col-3-1 -large-last -large-first-row -medium-col-3-1 -medium-last -medium-first-row -small-col-3-1 -small-last -small-first-row">
+<div class="ce_text label-price block">
+
+  <p><strong>Zimmer</strong></p>
+  
+  <h2><?=$wohnung['zimmer']?></h2>
+
+  
+
+</div>
+</div></div>
+<!--
+<a class="button -single ce_rsce_tao_button " href="<?=$link.$wohnung['wid'];?>" title="zur Detailansicht der Wohnung : <?=$wohnung['title']?>">Details</a
+	Details</a>
+-->	
+
+<!-- <form method="post" action="<?=$this->phpself?>"><input type="hidden" name="wid" value="<?=$wohnung['wid']?>"><button>test</button></form> -->
+
+
+<!-- <a class="button -single ce_rsce_tao_button " href="wohnungsangebot.html?&wid=<?=$wohnung['wid'];?>" title="zur Detailansicht der Wohnung : <?=$wohnung['title']?>">Details</a> -->
+</div>
+</div>
+
+
+
+
+	<?php endforeach; ?>
+	<?php
+		$sort_add = "sort_kind=default";
+		if($this->sort_kind != "") $sort_add = "sort_kind=".$this->sort_kind;
+	?>
+	<?php if ( $this->page_anz > 1 ) : ?>
+		<div class="row" style="border-top:0px solid #CCCCCC; text-align:center;padding-top:10px;">
+		<?php for ( $i = 1 ; $i <= $this->page_anz ; $i++ ) : ?>
+			<span class="pagi_border clickable link js-base64 <?php if($i == $this->page):?> active<?php endif;?>" data-extend="<?php echo base64_encode($this->phpself.$sortKind.$sort_add.'&page='.$i);?>" title="Seite aufrufen"><?=$i?></span>
+		<?php endfor; ?>
+		</div>
+	<?php endif; ?>
+</div>	
+<?php endif; ?>
