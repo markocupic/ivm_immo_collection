@@ -80,7 +80,9 @@ $(document).ready(function () {
         }
         // Set cookie
         var strCollection = arrCollection.join(',');
+        strCollection = strCollection.replace(',,', ',');
         IvmImmoCollection.setCookie('ivm-collection', strCollection);
+        console.log(strCollection);
 
         // Remove item from DOM in collection list view only data-itemselector property needed on the button element
         if ($(this).data('itemselector') !== '' && !$(this).hasClass('featured')) {

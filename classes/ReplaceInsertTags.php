@@ -8,7 +8,6 @@
 
 namespace IvmImmoCollection;
 
-
 /**
  * Class ReplaceInsertTags
  * @package IvmImmoCollection
@@ -37,16 +36,13 @@ class ReplaceInsertTags
             $arrTag = explode('::', $strTag);
             $wid = $arrTag[1];
 
-
-
-
             $objTemplate = new \FrontendTemplate('toggleCollection');
             $objTemplate->wid = $wid;
             $objTemplate->icon = 'unfeatured';
             $objTemplate->title = $GLOBALS['TL_LANG']['MSC']['ivmAddToCollection'];
             $objTemplate->moduleId = $GLOBALS['TL_LANG']['MSC']['ivmAddToCollection'];
             $objTemplate->itemSelector = '';
-            if(isset($arrTag[2]))
+            if (isset($arrTag[2]))
             {
                 $objTemplate->itemSelector = $arrTag[2];
             }
