@@ -1,11 +1,10 @@
 <?php
-
-/**
- * Contao Open Source CMS
+/*
+ * This file is part of Contao Ivm Immo Collection.
  *
- * Copyright (c) 2005-2018 Leo Feyer
- *
- * @license LGPL-3.0+
+ * (c) Marko Cupic
+ * @author Marko Cupic <https://github.com/markocupic/ivm_immo_collection>
+ * @license MIT
  */
 
 /**
@@ -14,10 +13,10 @@
 ClassLoader::addClasses(array
 (
     // Modules
-    'ModuleImmosearchListCollection'      => 'system/modules/ivm_immo_collection/modules/ModuleImmosearchListCollection.php',
+    'IvmImmoCollection\ModuleImmosearchListCollection' => 'system/modules/ivm_immo_collection/modules/ModuleImmosearchListCollection.php',
 
     // Classes
-    'IvmImmoCollection\ReplaceInsertTags' => 'system/modules/ivm_immo_collection/classes/ReplaceInsertTags.php',
+    'IvmImmoCollection\ReplaceInsertTags'              => 'system/modules/ivm_immo_collection/classes/ReplaceInsertTags.php',
 ));
 
 /**
@@ -27,5 +26,4 @@ TemplateLoader::addFiles(array
 (
     'toggleCollection'              => 'system/modules/ivm_immo_collection/templates',
     'mod_immosearch_listcollection' => 'system/modules/ivm_immo_collection/templates',
-
 ));

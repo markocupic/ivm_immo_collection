@@ -1,3 +1,11 @@
+/*
+ * This file is part of Contao Ivm Immo Collection.
+ *
+ * (c) Marko Cupic
+ * @author Marko Cupic <https://github.com/markocupic/ivm_immo_collection>
+ * @license MIT
+ */
+
 button.ivm-collection-toggle-button, button.ivm-collection-toggle-button:hover, button.ivm-collection-toggle-button:active {
     background: transparent !important;
     border: 0 !important;

@@ -1,4 +1,12 @@
-/**
+/*
+ * This file is part of Contao Ivm Immo Collection.
+ *
+ * (c) Marko Cupic
+ * @author Marko Cupic <https://github.com/markocupic/ivm_immo_collection>
+ * @license MIT
+ *
+ *
+ *
  * Helper class
  * @type {{getCookie: (function(*): *), setCookie: IvmImmoCollection.setCookie, delCookie: IvmImmoCollection.delCookie, removeItem: (function(*, *): *)}}
  */
@@ -95,25 +103,6 @@ $(document).ready(function () {
     });
 });
 
-/**
- *
- */
-function example() {
-    // Just set cookie:
-    IvmImmoCollection.setCookie('name', 'value');
-    // Set cookie for 1 hour:
-    date = new Date();
-    date.setHours(date.getHours() + 1);
-    setCookie('name', 'value', date.toUTCString());
-
-    // Example:
-    IvmImmoCollection.getCookie('name');
-
-    // Example
-    IvmImmoCollection.delCookie('name');
-}
-
-// Example:
 
 
 

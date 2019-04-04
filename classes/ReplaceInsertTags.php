@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Marko
- * Date: 03.04.2019
- * Time: 12:49
+/*
+ * This file is part of Contao Ivm Immo Collection.
+ *
+ * (c) Marko Cupic
+ * @author Marko Cupic <https://github.com/markocupic/ivm_immo_collection>
+ * @license MIT
  */
 
 namespace IvmImmoCollection;
@@ -55,6 +56,7 @@ class ReplaceInsertTags
                 $objTemplate->icon = 'featured';
                 $objTemplate->title = $GLOBALS['TL_LANG']['MSC']['ivmRemoveFromCollection'];
             }
+            
             return $objTemplate->parse();
         }
 
