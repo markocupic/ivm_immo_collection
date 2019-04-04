@@ -181,73 +181,19 @@ class ModuleImmosearchListCollection extends \Module
      */
     private function getName($typ, $wert)
     {
-        $names = array(
-            'typ'                 => array(
-                'DACHGESCHOSS'        => 'Dachgeschosswohnung',
-                'ETAGE'               => 'Etagenwohnung',
-                'ERDGESCHOSS'         => 'Erdgeschosswohnung',
-                'LOFT-STUDIO-ATELIER' => 'Loft-Studio-Atelier',
-                'PENTHOUSE'           => 'Penthouse',
-                'MAISONETTE'          => 'Maisonette',
-                'SOUTERRAIN'          => 'Souterrainwohnung',
-                'TERRASSEN'           => 'Terrassenwohnung',
-                'KEINE_ANGABE'        => 'Wohnung',
-            ),
-            'zustand'             => array(
-                'ERSTBEZUG'                => 'Erstbezug',
-                'TEIL_VOLLSANIERT'         => 'Saniert',
-                'TEIL_VOLLRENOVIERUNGSBED' => 'Renovierungsbedürftig',
-                'NEUWERTIG'                => 'Neuwertig',
-                'BAUFAELLIG'               => 'Baufällig',
-                'TEIL_VOLLRENOVIERT'       => 'Renoviert',
-                'MODERNISIERT'             => 'Modernisiert',
-                'NACH_VEREINBARUNG'        => 'Nach Vereinbarung',
-                'GEPFLEGT'                 => 'Gepflegt',
-            ),
-            'dusche'              => array('true' => 'Dusche'),
-            'wanne'               => array('true' => 'Wanne'),
-            'fenster'             => array('true' => 'Fenster im Bad'),
-            'ebk'                 => array('true' => 'Einbauküche'),
-            'ebk2'                => array('true' => 'EBK'),
-            'offen'               => array('true' => 'offene Küche'),
-            'fliesen'             => array('true' => 'Fliesenböden'),
-            'kunststoff'          => array('true' => 'PVC - Belag'),
-            'parkett'             => array('true' => 'Parkettböden'),
-            'teppich'             => array('true' => 'Teppich'),
-            'laminat'             => array('true' => 'Laminat'),
-            'dielen'              => array('true' => 'Dielen'),
-            'stein'               => array('true' => 'Stein'),
-            'estrich'             => array('true' => 'Estrich'),
-            'doppelboden'         => array('true' => 'Doppelboden'),
-            'fern'                => array('true' => 'Fernheizung'),
-            'etage_heizung'       => array('true' => 'Etagenheizung'),
-            'zentral'             => array('true' => 'Zentralheizung'),
-            'gas'                 => array('true' => 'Gasfeuerung'),
-            'oel'                 => array('true' => 'Ölbefeuerung'),
-            'wg'                  => array('true' => 'WG geeignet'),
-            'keller'              => array('true' => 'Keller vorhanden'),
-            'lift'                => array('true' => 'Aufzug'),
-            'barrierefrei'        => array('true' => 'barrierefrei'),
-            'garten'              => array('true' => 'Garten'),
-            'moebliert'           => array('true' => 'Möbliert'),
-            'rollstuhlgerecht'    => array('true' => 'Rollstuhlgerecht'),
-            'raeume_veraenderbar' => array('true' => 'Räume veränderbar'),
-            'wbs_sozialwohnung'   => array('true' => 'Wohnberechtigungsschein'),
-            'balkon'              => array('true' => 'Balkon'),
-            'e_typ'               => array('VERBRAUCH' => 'Energieverbrauch'),
-            'altbau'              => array('1' => 'Altbau'),
-            'neubau'              => array('1' => 'Neubau'),
-            'reinigung'           => array('1' => 'Reinigungsservice'),
-            'senioren'            => array('true' => 'Seniorengerecht'),
-        );
-
         if ($wert == '' || $wert == 'false')
         {
             return null;
         }
+        
+        // $GLOBALS['IVM_LABELS'] is stored in system/modules/ivm_immo_collection/config/config.php
+        if (!isset($GLOBALS['IVM_LABELS'][$typ][$wert]))
+        {
+            return '';
+        }
         else
         {
-            return $names[$typ][$wert];
+            return $GLOBALS['IVM_LABELS'][$typ][$wert];
         }
     }
 }
