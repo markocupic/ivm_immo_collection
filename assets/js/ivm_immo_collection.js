@@ -89,11 +89,16 @@ $(document).ready(function () {
             $(icon).prop('src', iconSRC.replace('unfeatured', 'featured'));
             $(button).attr('aria-checked', 'true');
         }
+
         // Set cookie
         var strCollection = arrCollection.join(',');
         strCollection = strCollection.replace(',,', ',');
-        IvmImmoCollection.setCookie('ivm-collection', strCollection);
-        console.log(strCollection);
+
+        // Set expiration
+        var d = new Date();
+        d.setTime(d.getTime() + (2 * 24 * 60 * 60 * 1000));
+        var expires = d.toUTCString();
+        IvmImmoCollection.setCookie('ivm-collection', strCollection, expires);
 
         // Remove item from DOM in collection list view only data-itemselector property needed on the button element
         if ($(button).data('itemselector') !== '' && !$(this).hasClass('featured')) {
