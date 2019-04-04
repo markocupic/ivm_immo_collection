@@ -47,8 +47,10 @@ class ReplaceInsertTags
                 $objTemplate->itemSelector = $arrTag[2];
             }
 
+            $objTemplate->ariaChecked = 'false';
             if (in_array($wid, $arrFeaturedItems))
             {
+                $objTemplate->ariaChecked = 'true';
                 $objTemplate->featureClass = 'featured';
                 $objTemplate->icon = 'featured';
                 $objTemplate->title = $GLOBALS['TL_LANG']['MSC']['ivmRemoveFromCollection'];

@@ -54,11 +54,12 @@ $(document).ready(function () {
 
         e.preventDefault();
         e.stopPropagation();
-        var icon = $(this).find('img');
+        var button = $(this);
+        var icon = $(button).find('img');
         var iconSRC = $(icon).prop('src');
 
         // Wohnungs-Id
-        var wid = $(this).data('wid');
+        var wid = $(button).data('wid');
 
         // Catch the cookie
         var cookie = IvmImmoCollection.getCookie('ivm-collection');
@@ -68,15 +69,17 @@ $(document).ready(function () {
         }
 
         // Toggle featured/unfeatured
-        if ($(this).hasClass('featured')) {
+        if ($(button).hasClass('featured')) {
             arrCollection = IvmImmoCollection.removeItem(wid, arrCollection);
-            $(this).removeClass('featured');
+            $(button).removeClass('featured');
             $(icon).prop('src', iconSRC.replace('featured', 'unfeatured'));
+            $(button).attr('aria-checked', 'false');
         } else {
             arrCollection = IvmImmoCollection.removeItem(wid, arrCollection);
             arrCollection.push(wid);
-            $(this).addClass('featured');
+            $(button).addClass('featured');
             $(icon).prop('src', iconSRC.replace('unfeatured', 'featured'));
+            $(button).attr('aria-checked', 'true');
         }
         // Set cookie
         var strCollection = arrCollection.join(',');
@@ -85,8 +88,8 @@ $(document).ready(function () {
         console.log(strCollection);
 
         // Remove item from DOM in collection list view only data-itemselector property needed on the button element
-        if ($(this).data('itemselector') !== '' && !$(this).hasClass('featured')) {
-            $(this).closest($(this).data('itemselector')).remove();
+        if ($(button).data('itemselector') !== '' && !$(this).hasClass('featured')) {
+            $(button).closest($(button).data('itemselector')).remove();
         }
         return false;
     });
