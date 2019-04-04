@@ -84,20 +84,20 @@ class ModuleImmosearchListCollection extends \Module
             return;
         }
         $this->searchResults = $result->fetchAllAssoc();
-        $this->makeList();
+        $this->generateList();
     }
 
     /**
      *
      */
-    private function makeList()
+    private function generateList()
     {
-        $wohnungen = array();
-        $ergebnis = false;
-        foreach ($this->searchResults as $wohnung)
+        $flats = array();
+        $hasItems = false;
+        foreach ($this->searchResults as $flat)
         {
-            $ergebnis = true;
-            $result = \Database::getInstance()->prepare("SELECT * FROM is_details WHERE id = ?")->execute($wohnung['wid']);
+            $hasItems = true;
+            $result = \Database::getInstance()->prepare("SELECT * FROM is_details WHERE id = ?")->execute($flat['wid']);
             $details = $result->fetchAssoc();
 
             // Get pics
@@ -108,45 +108,45 @@ class ModuleImmosearchListCollection extends \Module
             $objPage = \PageModel::findByPk($this->jumpTo);
             if ($objPage !== null)
             {
-                $url = $objPage->getFrontendUrl() . '?wid=' . $wohnung['wid'];
+                $url = $objPage->getFrontendUrl() . '?wid=' . $flat['wid'];
             }
 
-            $wohnungen[$wohnung['id']] = array(
-                'id'        => $wohnung['id'],
-                'wid'       => $wohnung['wid'],
-                'zimmer'    => $wohnung['zimmer'],
-                'flaeche'   => ceil($wohnung['flaeche']) . ' m²',
-                'warm'      => $this->makeEuro($wohnung['warm']),
-                'kalt'      => $wohnung['kalt'] . " &euro;",
+            $flats[$flat['id']] = array(
+                'id'        => $flat['id'],
+                'wid'       => $flat['wid'],
+                'zimmer'    => $flat['zimmer'],
+                'flaeche'   => ceil($flat['flaeche']) . ' m²',
+                'warm'      => $this->formatEuro($flat['warm']),
+                'kalt'      => $flat['kalt'] . " &euro;",
                 'title'     => $details['title'],
                 'strasse'   => $details['strasse'],
                 'hnr'       => $details['hnr'],
                 'plz'       => $details['plz'],
                 'ort'       => $details['ort'],
                 'startbild' => $pics[0],
-                'lift'      => $this->getName('lift', $wohnung['lift']),
-                'balkon'    => $this->getName('balkon', $wohnung['balkon']),
-                'garten'    => $this->getName('garten', $wohnung['garten']),
-                'ebk'       => $this->getName('ebk2', $wohnung['ebk']),
-                'etage'     => $wohnung['etage'] . '. Etage',
-                'dusche'    => $this->getName('dusche', $wohnung['dusche']),
-                'wanne'     => $this->getName('wanne', $wohnung['wanne']),
+                'lift'      => $this->getLabel('lift', $flat['lift']),
+                'balkon'    => $this->getLabel('balkon', $flat['balkon']),
+                'garten'    => $this->getLabel('garten', $flat['garten']),
+                'ebk'       => $this->getLabel('ebk2', $flat['ebk']),
+                'etage'     => $flat['etage'] . '. Etage',
+                'dusche'    => $this->getLabel('dusche', $flat['dusche']),
+                'wanne'     => $this->getLabel('wanne', $flat['wanne']),
                 'jumpTo'    => $url
             );
         }
 
-        $this->Template->wohnungen = $wohnungen;
-        $this->Template->ergebnis = $ergebnis;
+        $this->Template->wohnungen = $flats;
+        $this->Template->hasItems = $hasItems;
     }
 
     /**
-     * @param $wert
+     * @param $value
      * @param bool $quick
      * @return string
      */
-    private function makeEuro($wert, $quick = true)
+    private function formatEuro($value, $quick = true)
     {
-        $temp = explode('.', $wert);
+        $temp = explode('.', $value);
         $price = $temp[0] . ',';
 
         if (strlen($temp[1]) == 2)
@@ -176,24 +176,24 @@ class ModuleImmosearchListCollection extends \Module
 
     /**
      * @param $typ
-     * @param $wert
+     * @param $value
      * @return null
      */
-    private function getName($typ, $wert)
+    private function getLabel($type, $value)
     {
-        if ($wert == '' || $wert == 'false')
+        if ($value == '' || $value == 'false')
         {
             return null;
         }
-        
+
         // $GLOBALS['IVM_LABELS'] is stored in system/modules/ivm_immo_collection/config/config.php
-        if (!isset($GLOBALS['IVM_LABELS'][$typ][$wert]))
+        if (!isset($GLOBALS['IVM_LABELS'][$type][$value]))
         {
             return '';
         }
         else
         {
-            return $GLOBALS['IVM_LABELS'][$typ][$wert];
+            return $GLOBALS['IVM_LABELS'][$type][$value];
         }
     }
 }

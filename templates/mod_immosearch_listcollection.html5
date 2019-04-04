@@ -4,11 +4,11 @@
 
 <?php $this->block('content'); ?>
 
-    <?php if (!$this->ergebnis): ?>
+    <?php if (!$this->hasItems): ?>
     <p>Ihre Merkliste ist noch leer.</p>
     <?php endif; ?>
 
-    <?php if ($this->ergebnis): ?>
+    <?php if ($this->hasItems): ?>
     <div class="ce_text offset2 grid9 inset1 block" style="margin-bottom:50px;">
         <?php foreach($this->wohnungen as $wohnung): ?>
         <div class="clickable js-base64 rs-columns ce_rs_columns_start first" data-extend="<?= base64_encode($wohnung['jumpTo']) ?>">
