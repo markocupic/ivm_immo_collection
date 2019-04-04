@@ -67,7 +67,7 @@ class ModuleImmosearchListCollection extends \Module
     }
 
     /**
-     *
+     * generate module
      */
     protected function compile()
     {
@@ -88,7 +88,7 @@ class ModuleImmosearchListCollection extends \Module
     }
 
     /**
-     *
+     * generate list
      */
     private function generateList()
     {
