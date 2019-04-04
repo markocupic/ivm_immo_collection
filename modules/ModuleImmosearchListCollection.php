@@ -9,7 +9,6 @@
 
 namespace IvmImmoCollection;
 
-
 /**
  * Class ModuleImmosearchListCollection
  */
@@ -98,45 +97,46 @@ class ModuleImmosearchListCollection extends \Module
         foreach ($this->searchResults as $wohnung)
         {
             $ergebnis = true;
-            $result = \Database::getInstance()->prepare("SELECT title, pics, strasse, hnr, plz, ort FROM is_details WHERE id = ?")->execute($wohnung['wid']);
+            $result = \Database::getInstance()->prepare("SELECT * FROM is_details WHERE id = ?")->execute($wohnung['wid']);
             $details = $result->fetchAssoc();
 
+            // Get pics
             $pics = explode(';', $details['pics']);
-
-            $wohnungen[$wohnung['id']]['id'] = $wohnung['id'];
-            $wohnungen[$wohnung['id']]['wid'] = $wohnung['wid'];
-            $wohnungen[$wohnung['id']]['zimmer'] = $wohnung['zimmer'];
-            $wohnungen[$wohnung['id']]['flaeche'] = ceil($wohnung['flaeche']) . ' m²';
-            $wohnungen[$wohnung['id']]['warm'] = $this->makeEuro($wohnung['warm']);
-            $wohnungen[$wohnung['id']]['kalt'] = $wohnung['kalt'] . " &euro;";
-            $wohnungen[$wohnung['id']]['title'] = $details['title'];
-            $wohnungen[$wohnung['id']]['strasse'] = $details['strasse'];
-            $wohnungen[$wohnung['id']]['hnr'] = $details['hnr'];
-            $wohnungen[$wohnung['id']]['plz'] = $details['plz'];
-            $wohnungen[$wohnung['id']]['ort'] = $details['ort'];
-            $wohnungen[$wohnung['id']]['startbild'] = $pics[0];
-            $wohnungen[$wohnung['id']]['lift'] = $this->getName('lift', $wohnung['lift']);
-            $wohnungen[$wohnung['id']]['balkon'] = $this->getName('balkon', $wohnung['balkon']);
-            $wohnungen[$wohnung['id']]['garten'] = $this->getName('garten', $wohnung['garten']);
-            $wohnungen[$wohnung['id']]['ebk'] = $this->getName('ebk2', $wohnung['ebk']);
-            $wohnungen[$wohnung['id']]['etage'] = $wohnung['etage'] . '. Etage';
-            $wohnungen[$wohnung['id']]['dusche'] = $this->getName('dusche', $wohnung['dusche']);
-            $wohnungen[$wohnung['id']]['wanne'] = $this->getName('wanne', $wohnung['wanne']);
 
             // Get jumpTo url
             $url = '';
             $objPage = \PageModel::findByPk($this->jumpTo);
-            if($objPage !== null)
+            if ($objPage !== null)
             {
                 $url = $objPage->getFrontendUrl() . '?wid=' . $wohnung['wid'];
             }
-            $wohnungen[$wohnung['id']]['jumpTo'] = $url;
+
+            $wohnungen[$wohnung['id']] = array(
+                'id'        => $wohnung['id'],
+                'wid'       => $wohnung['wid'],
+                'zimmer'    => $wohnung['zimmer'],
+                'flaeche'   => ceil($wohnung['flaeche']) . ' m²',
+                'warm'      => $this->makeEuro($wohnung['warm']),
+                'kalt'      => $wohnung['kalt'] . " &euro;",
+                'title'     => $details['title'],
+                'strasse'   => $details['strasse'],
+                'hnr'       => $details['hnr'],
+                'plz'       => $details['plz'],
+                'ort'       => $details['ort'],
+                'startbild' => $pics[0],
+                'lift'      => $this->getName('lift', $wohnung['lift']),
+                'balkon'    => $this->getName('balkon', $wohnung['balkon']),
+                'garten'    => $this->getName('garten', $wohnung['garten']),
+                'ebk'       => $this->getName('ebk2', $wohnung['ebk']),
+                'etage'     => $wohnung['etage'] . '. Etage',
+                'dusche'    => $this->getName('dusche', $wohnung['dusche']),
+                'wanne'     => $this->getName('wanne', $wohnung['wanne']),
+                'jumpTo'    => $url
+            );
         }
 
         $this->Template->wohnungen = $wohnungen;
         $this->Template->ergebnis = $ergebnis;
-
-
     }
 
     /**
@@ -148,11 +148,29 @@ class ModuleImmosearchListCollection extends \Module
     {
         $temp = explode('.', $wert);
         $price = $temp[0] . ',';
-        if (strlen($temp[1]) == 2) $price .= $temp[1];
-        if (strlen($temp[1]) == 1) $price .= $temp[1] . '0';
-        if (strlen($temp[1]) == 0) $price .= '00';
-        if ($quick) $price .= ' &euro;';
-        else $price .= ' Euro';
+
+        if (strlen($temp[1]) == 2)
+        {
+            $price .= $temp[1];
+        }
+        elseif (strlen($temp[1]) == 1)
+        {
+            $price .= $temp[1] . '0';
+        }
+        elseif (strlen($temp[1]) == 0)
+        {
+            $price .= '00';
+        }
+
+        if ($quick)
+        {
+            $price .= ' &euro;';
+        }
+        else
+        {
+            $price .= ' Euro';
+        }
+
         return $price;
     }
 
