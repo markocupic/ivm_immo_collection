@@ -4,48 +4,48 @@
 
 <?php $this->block('content'); ?>
 
-    <?php if (!$this->hasItems): ?>
+    <?php if (!$this->flats): ?>
     <p>Ihre Merkliste ist noch leer.</p>
     <?php endif; ?>
 
-    <?php if ($this->hasItems): ?>
+    <?php if ($this->flats): ?>
     <div class="ce_text offset2 grid9 inset1 block" style="margin-bottom:50px;">
-        <?php foreach($this->wohnungen as $wohnung): ?>
-        <div class="clickable js-base64 rs-columns ce_rs_columns_start first" data-extend="<?= base64_encode($wohnung['jumpTo']) ?>">
+        <?php foreach($this->flats as $flat): ?>
+        <div class="clickable js-base64 rs-columns ce_rs_columns_start first" data-extend="<?= base64_encode($flat['jumpTo']) ?>">
             <div data-id="<?= $this->id ?>" class="ce_rs_column_start  rs-column -large-col-6-2 -large-first -large-first-row -medium-col-6-2 -medium-first -medium-first-row -small-col-1-1 -small-first -small-last -small-first-row">
                 <!-- unfeature -->
                 <!-- @see https://github.com/markocupic/ivm_immo_collection -->
-                {{ivmImmoCollectionToggleCollection::<?= $wohnung['wid'] ?>::div.clickable}}
+                {{ivmImmoCollectionToggleCollection::<?= $flat['wid'] ?>::div.clickable}}
                 <!-- end unfeature -->
                 <div class="ce_image block">
                     <figure class="image_container">
-                        <img src="./files/Wohnungsangebote/<?= $wohnung['startbild'] ?>" width="480" height="260" alt="" class="lazyload "/>
+                        <img src="./files/Wohnungsangebote/<?= $flat['startbild'] ?>" width="480" height="260" alt="" class="lazyload "/>
                     </figure>
                 </div>
             </div>
 
             <div class="ce_rs_column_start  rs-column -large-col-6-4 -large-last -large-first-row -medium-col-6-4 -medium-last -medium-first-row -small-col-1-1 -small-first -small-last">
                 <div class="ce_text inserat block">
-                    <h3><?= $wohnung['title'] ?></h3>
-                    <p><em><?= $wohnung['strasse'] ?><?= $wohnung['hnr'] ?>, <?= $wohnung['plz'] ?> <?= $wohnung['ort'] ?></em></p>
+                    <h3><?= $flat['title'] ?></h3>
+                    <p><em><?= $flat['strasse'] ?><?= $flat['hnr'] ?>, <?= $flat['plz'] ?> <?= $flat['ort'] ?></em></p>
                 </div>
                 <div class="rs-columns ce_rs_columns_start">
                     <div class="rs-column -large-col-3-1 -large-first -large-first-row -medium-col-3-1 -medium-first -medium-first-row -small-col-3-1 -small-first -small-first-row">
                         <div class="ce_text label-price block">
                             <p><strong>Wohn&shy;fläche</strong></p>
-                            <h2><?= $wohnung['flaeche'] ?></h2>
+                            <h2><?= $flat['flaeche'] ?></h2>
                         </div>
                     </div>
                     <div class="rs-column -large-col-3-1 -large-first-row -medium-col-3-1 -medium-first-row -small-col-3-1 -small-first-row">
                         <div class="ce_text label-price block">
                             <p><strong>Kaltmiete</strong></p>
-                            <h2><?= $wohnung['kalt'] ?></h2>
+                            <h2><?= $flat['kalt'] ?></h2>
                         </div>
                     </div>
                     <div class="rs-column -large-col-3-1 -large-last -large-first-row -medium-col-3-1 -medium-last -medium-first-row -small-col-3-1 -small-last -small-first-row">
                         <div class="ce_text label-price block">
                             <p><strong>Zimmer</strong></p>
-                            <h2><?= $wohnung['zimmer'] ?></h2>
+                            <h2><?= $flat['zimmer'] ?></h2>
                         </div>
                     </div>
                 </div>

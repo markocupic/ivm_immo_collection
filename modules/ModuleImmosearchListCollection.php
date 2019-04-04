@@ -71,16 +71,16 @@ class ModuleImmosearchListCollection extends \Module
      */
     protected function compile()
     {
+        $this->Template->flats = null;
+
         if (count($this->arrFeaturedItems) < 1)
         {
-            $this->Template->ergebnis = null;
             return;
         }
 
         $result = \Database::getInstance()->query('SELECT * FROM is_wohnungen WHERE id IN(' . implode(',', $this->arrFeaturedItems) . ') ORDER BY kalt DESC');
         if (!$result->numRows)
         {
-            $this->Template->ergebnis = null;
             return;
         }
         $this->searchResults = $result->fetchAllAssoc();
@@ -134,9 +134,10 @@ class ModuleImmosearchListCollection extends \Module
                 'jumpTo'    => $url
             );
         }
-
-        $this->Template->wohnungen = $flats;
-        $this->Template->hasItems = $hasItems;
+        if($hasItems && count($flats) > 0)
+        {
+            $this->Template->flats = $flats;
+        }
     }
 
     /**
