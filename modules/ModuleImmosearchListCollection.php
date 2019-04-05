@@ -25,11 +25,6 @@ class ModuleImmosearchListCollection extends \Module
     protected $arrFeaturedItems;
 
     /**
-     * @var
-     */
-    protected $searchResults;
-
-    /**
      * Display a wildcard in the back end
      *
      * @return string
@@ -78,12 +73,6 @@ class ModuleImmosearchListCollection extends \Module
             return;
         }
 
-        $result = \Database::getInstance()->query('SELECT * FROM is_wohnungen WHERE id IN(' . implode(',', $this->arrFeaturedItems) . ') ORDER BY kalt DESC');
-        if (!$result->numRows)
-        {
-            return;
-        }
-        $this->searchResults = $result->fetchAllAssoc();
         $this->generateList();
     }
 
@@ -92,9 +81,15 @@ class ModuleImmosearchListCollection extends \Module
      */
     private function generateList()
     {
+        $result = \Database::getInstance()->query('SELECT * FROM is_wohnungen WHERE id IN(' . implode(',', $this->arrFeaturedItems) . ') ORDER BY kalt DESC');
+        if (!$result->numRows)
+        {
+            return;
+        }
+
         $flats = array();
         $hasItems = false;
-        foreach ($this->searchResults as $flat)
+        foreach ($result->fetchAllAssoc() as $flat)
         {
             $hasItems = true;
             $result = \Database::getInstance()->prepare("SELECT * FROM is_details WHERE id = ?")->execute($flat['wid']);
@@ -134,7 +129,7 @@ class ModuleImmosearchListCollection extends \Module
                 'jumpTo'    => $url
             );
         }
-        if($hasItems && count($flats) > 0)
+        if ($hasItems && count($flats) > 0)
         {
             $this->Template->flats = $flats;
         }
