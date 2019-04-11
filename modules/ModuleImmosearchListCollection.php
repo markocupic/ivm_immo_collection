@@ -42,18 +42,21 @@ class ModuleImmosearchListCollection extends \Module
             $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
             return $objTemplate->parse();
         }
-
         $arrFeaturedItems = array();
         if (isset($_COOKIE['ivm-collection']))
         {
             if ($_COOKIE['ivm-collection'] != '')
             {
-                $arrFeaturedItems = explode(',', $_COOKIE['ivm-collection']);
+                // Get $arrFeaturedItems by decoding $_COOKIE['ivm-collection']
+                $arrFeaturedItems = explode(',', base64_decode($_COOKIE['ivm-collection']));
             }
             $arrFeaturedItems = array_filter(array_unique($arrFeaturedItems));
 
             // Remove unique or empty values and reset cookie
-            setrawcookie('ivm-collection', implode(',', $arrFeaturedItems));
+            $strCookie = implode(',', $arrFeaturedItems);
+            // Base64 encode cookie string
+            $strCookie = $strCookie != '' ?  base64_encode($strCookie) : '';
+            setrawcookie('ivm-collection', $strCookie);
         }
 
         $this->arrFeaturedItems = $arrFeaturedItems;

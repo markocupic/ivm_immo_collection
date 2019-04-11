@@ -29,7 +29,7 @@ var IvmImmoCollection = {
                 setStr = cookie.substring(offset, end);
             }
         }
-        return (setStr);
+        return setStr;
     },
 
     setCookie: function (name, value, expires, path, domain, secure) {
@@ -73,7 +73,9 @@ $(document).ready(function () {
         var cookie = IvmImmoCollection.getCookie('ivm-collection');
         var arrCollection = [];
         if (cookie !== null) {
-            arrCollection = cookie.split(',');
+            // Base 64 decode cookie string
+            var strCookie = atob(cookie);
+            arrCollection = strCookie.split(',');
         }
 
         // Toggle featured/unfeatured
@@ -98,7 +100,9 @@ $(document).ready(function () {
         var d = new Date();
         d.setTime(d.getTime() + (2 * 24 * 60 * 60 * 1000));
         var expires = d.toUTCString();
-        IvmImmoCollection.setCookie('ivm-collection', strCollection, expires);
+        // Base64 encode cookie string
+        var strCookie = strCollection != '' ? btoa(strCollection) : '';
+        IvmImmoCollection.setCookie('ivm-collection', strCookie, expires);
 
         // Remove item from DOM in collection list view only data-itemselector property needed on the button element
         if ($(button).data('itemselector') !== '' && !$(this).hasClass('featured')) {

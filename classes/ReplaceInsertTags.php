@@ -28,7 +28,8 @@ class ReplaceInsertTags
             {
                 if ($_COOKIE['ivm-collection'] != '')
                 {
-                    $arrFeaturedItems = explode(',', $_COOKIE['ivm-collection']);
+                    // Get $arrFeaturedItems by decoding $_COOKIE['ivm-collection']
+                    $arrFeaturedItems = explode(',', base64_decode($_COOKIE['ivm-collection']));
                 }
                 // Remove unique or empty values
                 setrawcookie('ivm-collection', implode(',', array_filter(array_unique($arrFeaturedItems))));
@@ -56,7 +57,7 @@ class ReplaceInsertTags
                 $objTemplate->icon = 'featured';
                 $objTemplate->title = $GLOBALS['TL_LANG']['MSC']['ivmRemoveFromCollection'];
             }
-            
+
             return $objTemplate->parse();
         }
 
