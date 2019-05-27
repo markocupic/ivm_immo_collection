@@ -49,13 +49,25 @@ class ModuleImmosearchListCollection extends \Module
             {
                 // Get $arrFeaturedItems by decoding $_COOKIE['ivm-collection']
                 $arrFeaturedItems = explode(',', base64_decode($_COOKIE['ivm-collection']));
+
+                // Clean array from invalid values
+                $arrFeaturedItems = array_map(function ($el) {
+                    if (is_numeric($el))
+                    {
+                        return $el;
+                    }
+                    else
+                    {
+                        return '';
+                    }
+                }, $arrFeaturedItems);
+                $arrFeaturedItems = array_filter(array_unique($arrFeaturedItems));
             }
-            $arrFeaturedItems = array_filter(array_unique($arrFeaturedItems));
 
             // Remove unique or empty values and reset cookie
             $strCookie = implode(',', $arrFeaturedItems);
             // Base64 encode cookie string
-            $strCookie = $strCookie != '' ?  base64_encode($strCookie) : '';
+            $strCookie = $strCookie != '' ? base64_encode($strCookie) : '';
             setrawcookie('ivm-collection', $strCookie);
         }
 
@@ -85,6 +97,7 @@ class ModuleImmosearchListCollection extends \Module
     private function generateList()
     {
         $result = \Database::getInstance()->query('SELECT * FROM is_wohnungen WHERE id IN(' . implode(',', $this->arrFeaturedItems) . ') ORDER BY kalt DESC');
+
         if (!$result->numRows)
         {
             return;
@@ -100,7 +113,6 @@ class ModuleImmosearchListCollection extends \Module
 
             // Get pics
             $pics = explode(';', $details['pics']);
-
             // Get jumpTo url
             $url = '';
             $objPage = \PageModel::findByPk($this->jumpTo);

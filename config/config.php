@@ -19,6 +19,7 @@ $GLOBALS['FE_MOD']['immosearchcollection']['immosearch_listcollection'] = 'IvmIm
 
 // Hooks
 $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('IvmImmoCollection\ReplaceInsertTags', 'replaceInsertTags');
+//$GLOBALS['TL_HOOKS']['validateFormField'][] = array('IvmImmoCollection\ValidateFormFieldHook', 'validateFormField');
 
 // Labels used in IvmImmoCollection\ModuleImmosearchListCollection
 $GLOBALS['IVM_LABELS'] = array(

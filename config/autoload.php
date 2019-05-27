@@ -17,6 +17,10 @@ ClassLoader::addClasses(array
 
     // Classes
     'IvmImmoCollection\ReplaceInsertTags'              => 'system/modules/ivm_immo_collection/classes/ReplaceInsertTags.php',
+
+    // Hooks
+    'IvmImmoCollection\ValidateFormFieldHook'          => 'system/modules/ivm_immo_collection/classes/ValidateFormFieldHook.php',
+
 ));
 
 /**

@@ -19,7 +19,9 @@
                 <!-- end unfeature -->
                 <div class="ce_image block">
                     <figure class="image_container">
+                        <?php if($flat['startbild'] != ''): ?>
                         <img src="./files/Wohnungsangebote/<?= $flat['startbild'] ?>" width="480" height="260" alt="" class="lazyload "/>
+                        <?php endif; ?>
                     </figure>
                 </div>
             </div>
