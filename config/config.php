@@ -19,7 +19,9 @@ $GLOBALS['FE_MOD']['immosearchcollection']['immosearch_listcollection'] = 'IvmIm
 
 // Hooks
 $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('IvmImmoCollection\ReplaceInsertTags', 'replaceInsertTags');
-//$GLOBALS['TL_HOOKS']['validateFormField'][] = array('IvmImmoCollection\ValidateFormFieldHook', 'validateFormField');
+
+// 4.6.2019: Vor dem Absenden des Formulars wird die Merkliste gecheckt und die Komponenten der Wohnungen aus der Merkliste werden kommasepariert in ein verstecktes Feld geschrieben.
+$GLOBALS['TL_HOOKS']['validateFormField'][] = array('IvmImmoCollection\ValidateFormFieldHook', 'validateFormField');
 
 // Labels used in IvmImmoCollection\ModuleImmosearchListCollection
 $GLOBALS['IVM_LABELS'] = array(

@@ -25,6 +25,7 @@ class ValidateFormFieldHook
      */
     public function validateFormField(Widget $objWidget, $intId, $arrForm)
     {
+        // @see contao?do=form&table=tl_form_field&id=171&act=edit
         if ($objWidget->name === 'merkliste_wohnungen')
         {
             $arrFeaturedItems = array();
@@ -53,7 +54,7 @@ class ValidateFormFieldHook
 
                 $strCookie = implode(',', $arrFeaturedItems);
 
-                $objWidget->value = $strCookie;
+                $objWidget->value = sprintf('Folgende Wohnungen befinden sich in der Merkliste: %s', $strCookie);
             }
         }
 
