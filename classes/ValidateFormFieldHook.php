@@ -9,6 +9,7 @@
 
 namespace IvmImmoCollection;
 
+use Contao\Database;
 use Contao\Widget;
 
 /**
@@ -18,6 +19,7 @@ use Contao\Widget;
 class ValidateFormFieldHook
 {
     /**
+     * Send is_details.objektnr
      * @param Widget $objWidget
      * @param $intId
      * @param $arrForm
@@ -52,9 +54,27 @@ class ValidateFormFieldHook
                     }, $arrFeaturedItems);
                 }
 
-                $strCookie = implode(',', $arrFeaturedItems);
+                $arrItems = array_map(function ($id) {
+                    $objRow = Database::getInstance()->prepare('SELECT * FROM is_details WHERE id=?')->limit(1)->execute($id);
+                    if ($objRow->numRows)
+                    {
+                        return $objRow->objektnr;
+                    }
+                    else
+                    {
+                        return '';
+                    }
+                }, $arrFeaturedItems);
 
-                $objWidget->value = sprintf('Folgende Wohnungen befinden sich in der Merkliste: %s', $strCookie);
+                $arrItems = array_filter(array_unique($arrItems));
+                if (count($arrItems > 0))
+                {
+                    $objWidget->value = sprintf('Folgende Wohnungen befinden sich in der Merkliste: %s', implode(', ', $arrItems));
+                }
+                else
+                {
+                    $objWidget->value = sprintf('Es befinden sich keine Wohnungen in der Merkliste.');
+                }
             }
         }
 
