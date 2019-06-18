@@ -42,14 +42,15 @@ class ModuleImmosearchListCollection extends \Module
             $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
             return $objTemplate->parse();
         }
+
         $arrFeaturedItems = array();
         if (isset($_COOKIE['ivm-collection']))
         {
             if ($_COOKIE['ivm-collection'] != '')
             {
                 // Get $arrFeaturedItems by decoding $_COOKIE['ivm-collection']
-                $arrFeaturedItems = explode(',', base64_decode($_COOKIE['ivm-collection']));
-
+                //$arrFeaturedItems = explode(',', base64_decode($_COOKIE['ivm-collection']));
+                $arrFeaturedItems = explode(',', $_COOKIE['ivm-collection']);
                 // Clean array from invalid values
                 $arrFeaturedItems = array_map(function ($el) {
                     if (is_numeric($el))
@@ -67,7 +68,9 @@ class ModuleImmosearchListCollection extends \Module
             // Remove unique or empty values and reset cookie
             $strCookie = implode(',', $arrFeaturedItems);
             // Base64 encode cookie string
-            $strCookie = $strCookie != '' ? base64_encode($strCookie) : '';
+            //$strCookie = $strCookie != '' ? base64_encode($strCookie) : '';
+            $strCookie = $strCookie != '' ? $strCookie : '';
+
             setrawcookie('ivm-collection', $strCookie);
         }
 
@@ -123,6 +126,7 @@ class ModuleImmosearchListCollection extends \Module
 
             $flats[$flat['id']] = array(
                 'id'        => $flat['id'],
+                'flat_id'   => $flat['flat_id'],
                 'wid'       => $flat['wid'],
                 'zimmer'    => $flat['zimmer'],
                 'flaeche'   => ceil($flat['flaeche']) . ' m²',

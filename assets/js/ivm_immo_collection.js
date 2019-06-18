@@ -74,7 +74,9 @@ $(document).ready(function () {
         var arrCollection = [];
         if (cookie !== null) {
             // Base 64 decode cookie string
-            var strCookie = atob(cookie);
+            //var strCookie = atob(cookie);
+            var strCookie = cookie;
+
             arrCollection = strCookie.split(',');
         }
 
@@ -101,7 +103,8 @@ $(document).ready(function () {
         d.setTime(d.getTime() + (2 * 24 * 60 * 60 * 1000));
         var expires = d.toUTCString();
         // Base64 encode cookie string
-        var strCookie = strCollection != '' ? btoa(strCollection) : '';
+        //var strCookie = strCollection != '' ? btoa(strCollection) : '';
+        var strCookie = strCollection != '' ? strCollection : '';
         IvmImmoCollection.setCookie('ivm-collection', strCookie, expires);
 
         // Remove item from DOM in collection list view only data-itemselector property needed on the button element
